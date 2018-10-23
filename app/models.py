@@ -1,8 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 #输入密码加密状态
 from werkzeug.security import generate_password_hash, check_password_hash
+import uuid4
+
 db = SQLAlchemy()
-#用户账户登录表
+#用户表
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.String(50),primary_key=True)
@@ -31,8 +33,9 @@ class User(db.Model):
     def __repr__(self):
         return '<User: {}, {}>'.format(self.password_hash, self.email)
 
-#商家账户登录表
+#商家表
 class Seller(db.Model):
+
     __tablename__="sellers"
     id = db.Column(db.String(50), primary_key=True)
     email = db.Column(db.String(50), unique=True)
@@ -61,6 +64,7 @@ class Seller(db.Model):
         return '<Seller: {}, {}>'.format(self.password_hash, self.email)
 #菜单表
 class Menu(db.Model):
+
     __tablename__="menu"
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -75,6 +79,7 @@ class Menu(db.Model):
         self.price = price
 #订单表
 class Order(db.Model):
+
     __tablename__="orders"
     order_id = db.Column(db.String(50),primary_key = True)
     seller_id = db.Column(db.String(50),db.ForeignKey("sellers.id"),primary_key=True)#商家代号做为外键带入订单号里
